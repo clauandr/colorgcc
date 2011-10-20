@@ -108,9 +108,13 @@ sub initDefaults
   $colors{"warningNumberColor"}   = color("yellow");
   $colors{"warningMessageColor"}  = color("yellow");
 
-  $colors{"errorFileNameColor"} = color("bold red");
-  $colors{"errorNumberColor"}   = color("bold red");
-  $colors{"errorMessageColor"}  = color("bold red");
+  $colors{"errorFileNameColor"} = color("magenta");
+  $colors{"errorNumberColor"}   = color("magenta");
+  $colors{"errorMessageColor"}  = color("magenta");
+
+  $colors{"errorLineFileNameColor"} = color("bold red");
+  $colors{"errorLineNumberColor"}   = color("bold red");
+  $colors{"errorLineMessageColor"}  = color("bold red");
 }
 
 sub loadPreferences
@@ -230,6 +234,13 @@ while(<GCCOUT>)
       print($colors{"warningFileNameColor"}, "$field1:", color("reset"));
       print($colors{"warningNumberColor"}, "$field2:", color("reset"));
       srcscan($field3, $colors{"warningMessageColor"});
+    }
+    elsif ($field3 =~ m/\s+error:.*/)
+    {
+      # Error
+      print($colors{"errorLineFileNameColor"}, "$field1:", color("reset"));
+      print($colors{"errorLineNumberColor"}, "$field2:", color("reset"));
+      srcscan($field3, $colors{"errorLineMessageColor"});
     }
     else
     {
